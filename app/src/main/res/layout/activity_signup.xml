@@ -18,7 +18,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"
-        android:onClick="changeActivityMenuPrincipal" />
+        android:onClick="addUser" />
 
     <TextView
         android:text="E-mail:"
