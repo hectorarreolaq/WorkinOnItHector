@@ -2,6 +2,7 @@ package com.example.hector.workinonitfinal;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,9 +15,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MenuPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private String userId;
+    public UserIdent usuario;
+    private FirebaseUser user;
+
+    private FirebaseDatabase database;
+    private DatabaseReference ref;
+
+    private DatabaseReference ref_eventos;
+
+    private TextView nombre;
+    private TextView correo;
+    private View header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +46,9 @@ public class MenuPrincipal extends AppCompatActivity
         setContentView(R.layout.activity_menu_principal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("Users");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -47,9 +72,33 @@ public class MenuPrincipal extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         ListFragment frag = ListFragment.newInstance("","");
-        FragmentManager mf= getFragmentManager();
-        FragmentTransaction ft= mf.beginTransaction();
-        ft.add(R.id.content_menu_principal,frag,"ListRestFragment");
+
+
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("usuario");
+
+        header =  navigationView.getHeaderView(0);
+
+        nombre = (TextView) header.findViewById(R.id.nombre);
+        correo = (TextView) header.findViewById(R.id.correo);
+        //nombre correo actividades
+
+        ref.child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                usuario = dataSnapshot.getValue(UserIdent.class);
+                nombre.setText(usuario.getNombre());
+                correo.setText(usuario.getEmail());
+            }
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        frag.setUser(userId);
+        FragmentManager mf = getFragmentManager();
+        FragmentTransaction ft = mf.beginTransaction();
+        ft.add(R.id.content_menu_principal,frag,"ListFragment");
         ft.commit();
 
     }

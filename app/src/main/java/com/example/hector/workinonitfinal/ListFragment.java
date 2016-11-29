@@ -36,6 +36,8 @@ public class ListFragment extends Fragment {
 
     ListView listview;
 
+    private String userId;
+
     public ListFragment() {
         // Required empty public constructor
     }
@@ -123,6 +125,10 @@ public class ListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    public void setUser(String string){
+        this.userId = string;
     }
 
 

@@ -75,9 +75,9 @@ public class AddActivityFragment extends Fragment {
         location = (EditText)v.findViewById(R.id.location);
 
 
-        db= FirebaseDatabase.getInstance();
-        ref=db.getReference("Users");
-        ref.child(fbUser.getUid()).child("actividades");
+        db = FirebaseDatabase.getInstance();
+        ref = db.getReference("Users");
+        //ref.child(fbUser.getUid()).child("actividades");
 
 
         addButton = (Button) v.findViewById(R.id.addFragmentButton);
