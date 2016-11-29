@@ -1,5 +1,7 @@
 package com.example.hector.workinonitfinal;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,8 +29,11 @@ public class MenuPrincipal extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AddActivityFragment frag= AddActivityFragment.newInstance("","");
+                FragmentManager mf= getFragmentManager();
+                FragmentTransaction ft= mf.beginTransaction();
+                ft.replace(R.id.content_menu_principal,frag,"AddFragment");
+                ft.commit();
             }
         });
 
@@ -40,6 +45,13 @@ public class MenuPrincipal extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ListFragment frag = ListFragment.newInstance("","");
+        FragmentManager mf= getFragmentManager();
+        FragmentTransaction ft= mf.beginTransaction();
+        ft.add(R.id.content_menu_principal,frag,"ListRestFragment");
+        ft.commit();
+
     }
 
     @Override

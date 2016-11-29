@@ -5,7 +5,10 @@ package com.example.hector.workinonitfinal;
  */
 
 public class Usuario {
-    public String nombre,email,actividades;
+
+    public String nombre;
+    public String email;
+    public String actividades;
 
     public Usuario() {
     }
