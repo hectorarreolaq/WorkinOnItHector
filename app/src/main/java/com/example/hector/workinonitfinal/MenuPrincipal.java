@@ -54,11 +54,48 @@ public class MenuPrincipal extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddActivityFragment frag= AddActivityFragment.newInstance("","");
-                FragmentManager mf= getFragmentManager();
-                FragmentTransaction ft= mf.beginTransaction();
+
+                AddActivityFragment frag = AddActivityFragment.newInstance("","");
+
+                frag.setUser(userId);
+
+                //sacar el child del user id
+
+                frag.setRef(ref.child(userId).child("actividades"));
+
+
+
+                FragmentManager mf = getFragmentManager();
+                FragmentTransaction ft = mf.beginTransaction();
                 ft.replace(R.id.content_menu_principal,frag,"AddFragment");
                 ft.commit();
+
+
+
+                /* EJEMPLO CON LIST ACTIVITY
+
+                    ListFragment frag = ListFragment.newInstance("","");
+
+                   ref.child(userId).addValueEventListener(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            usuario = dataSnapshot.getValue(UserIdent.class);
+                            nombre.setText(usuario.getNombre());
+                            correo.setText(usuario.getEmail());
+                        }
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    frag.setUser(userId);
+
+                    FragmentManager mf = getFragmentManager();
+                    FragmentTransaction ft = mf.beginTransaction();
+                    ft.add(R.id.content_menu_principal,frag,"ListFragment");
+                    ft.commit();
+                 */
             }
         });
 
@@ -96,6 +133,8 @@ public class MenuPrincipal extends AppCompatActivity
         });
 
         frag.setUser(userId);
+
+
         FragmentManager mf = getFragmentManager();
         FragmentTransaction ft = mf.beginTransaction();
         ft.add(R.id.content_menu_principal,frag,"ListFragment");

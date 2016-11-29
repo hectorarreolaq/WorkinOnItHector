@@ -3,6 +3,7 @@ package com.example.hector.workinonitfinal;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.api.model.StringList;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -33,6 +35,8 @@ public class AddActivityFragment extends Fragment {
             dateStart,
             dateFinish,
             location;
+
+    private String userId;
 
     private Button addButton,regresarButton;
 
@@ -74,10 +78,13 @@ public class AddActivityFragment extends Fragment {
         dateFinish = (EditText)v.findViewById(R.id.dateFinish);
         location = (EditText)v.findViewById(R.id.location);
 
+        //userId = intent.getStringExtra("usuario");
 
         db = FirebaseDatabase.getInstance();
-        ref = db.getReference("Users");
+
+        //ref = db.getReference("Users");
         //ref.child(fbUser.getUid()).child("actividades");
+        //ref.child(.child("actividades");
 
 
         addButton = (Button) v.findViewById(R.id.addFragmentButton);
@@ -124,5 +131,14 @@ public class AddActivityFragment extends Fragment {
         super.onDetach();
 
     }
+
+    public void setUser(String string){
+        this.userId = string;
+    }
+
+    public void setRef(DatabaseReference ref){
+        this.ref = ref;
+    }
+
 
 }
