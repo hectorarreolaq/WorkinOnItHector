@@ -1,5 +1,6 @@
 package com.example.hector.workinonitfinal;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -7,17 +8,25 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.api.model.StringList;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class AddActivityFragment extends Fragment {
@@ -33,12 +42,15 @@ public class AddActivityFragment extends Fragment {
     private EditText name,
             description,
             dateStart,
-            dateFinish,
-            location;
+            dateFinish;
+
+    private TextView location;
 
     private String userId;
-
+    private int PLACE_PICKER_REQUEST;
     private Button addButton,regresarButton;
+
+    private Context globalContext = null;
 
     private FirebaseDatabase db;
     private DatabaseReference ref;
@@ -76,15 +88,29 @@ public class AddActivityFragment extends Fragment {
         description = (EditText)v.findViewById(R.id.description);
         dateStart = (EditText)v.findViewById(R.id.dateStart);
         dateFinish = (EditText)v.findViewById(R.id.dateFinish);
-        location = (EditText)v.findViewById(R.id.location);
+        location = (TextView) v.findViewById(R.id.location);
 
         //userId = intent.getStringExtra("usuario");
 
         db = FirebaseDatabase.getInstance();
+        globalContext = this.getActivity().getApplicationContext();
 
-        //ref = db.getReference("Users");
-        //ref.child(fbUser.getUid()).child("actividades");
-        //ref.child(.child("actividades");
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                Intent intent;
+                try {
+                    intent = builder.build(getActivity().getApplicationContext());
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
 
         addButton = (Button) v.findViewById(R.id.addFragmentButton);
@@ -123,6 +149,17 @@ public class AddActivityFragment extends Fragment {
         return v;
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode==PLACE_PICKER_REQUEST){
+            if(resultCode == RESULT_OK){
+                Place place = PlacePicker.getPlace(getActivity(), data);
+                String address = String.format("Place: %s", place.getAddress());
+                location.setText(address);
+            }else {
+                Log.e("Place error, ", resultCode + "" );
+            }
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
