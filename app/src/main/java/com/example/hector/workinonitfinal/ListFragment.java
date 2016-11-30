@@ -69,7 +69,8 @@ public class ListFragment extends Fragment {
 
         View v=inflater.inflate(R.layout.fragment_list, container, false);
         db= FirebaseDatabase.getInstance();
-        ref=db.getReference("Restaurants");
+        //ref=db.getReference("Users");
+
 
         listview = (ListView) v.findViewById(R.id.listview);
 
@@ -92,13 +93,13 @@ public class ListFragment extends Fragment {
                         frag.setHabit(habits.get(position));
                         FragmentManager mf= getFragmentManager();
                         FragmentTransaction ft= mf.beginTransaction();
-                        ft.replace(R.id.content_menu_principal,frag,"RestaurantVisualization");
+                        ft.replace(R.id.content_menu_principal,frag,"DetailsFragment");
                         ft.commit();
                     }
                 });
 
 
-                MyAdapter adapter =new MyAdapter(habits, getActivity());
+                MyAdapter adapter = new MyAdapter(habits, getActivity());
                 listview.setAdapter(adapter);
             }
 
@@ -129,6 +130,10 @@ public class ListFragment extends Fragment {
 
     public void setUser(String string){
         this.userId = string;
+    }
+
+    public void setRef(DatabaseReference ref){
+        this.ref = ref;
     }
 
 

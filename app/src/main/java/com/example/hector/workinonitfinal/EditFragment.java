@@ -3,9 +3,9 @@ package com.example.hector.workinonitfinal;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +28,7 @@ public class EditFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
     private EditText name,
             description,
             dateStart,
@@ -39,7 +40,7 @@ public class EditFragment extends Fragment {
     private FirebaseDatabase database;
     private DatabaseReference ref;
 
-    private Button boton,boton2;
+    private Button botonEdit, botonReturn;
 
 
     public EditFragment() {
@@ -93,29 +94,33 @@ public class EditFragment extends Fragment {
         location.setText(habit.getLocation());
 
         database = FirebaseDatabase.getInstance();
-        ref = database.getReference("Restaurants");
+        //ref = database.getReference("Users");
 
-        boton = (Button) v.findViewById(R.id.button4);
-        boton2 = (Button) v.findViewById(R.id.button5);
+        botonEdit = (Button) v.findViewById(R.id.buttonEdit);
+        botonReturn = (Button) v.findViewById(R.id.buttonReturn);
 
-        boton.setOnClickListener(new View.OnClickListener() {
+        botonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Habit res = new Habit(name.getText().toString(),description.getText().toString(),dateStart.getText().toString(),dateFinish.getText().toString(),
-                        location.getText().toString());
+                Habit res = new Habit(name.getText().toString(),
+                                        description.getText().toString(),
+                                        dateStart.getText().toString(),
+                                        dateFinish.getText().toString(),
+                                        location.getText().toString());
+
                 ref.child(habit.getName()).setValue(res);
-                Toast.makeText(getActivity(),"Restaurant Editado",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"Activity Updated",Toast.LENGTH_LONG).show();
 
             }
         });
 
-        boton2.setOnClickListener(new View.OnClickListener() {
+        botonReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ListFragment fragment = ListFragment.newInstance("","");
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction t = fm.beginTransaction();
-                t.replace(R.id.content_menu_principal, fragment, "Visualizacion");
+                t.replace(R.id.content_menu_principal, fragment, "ListFragment");
                 t.commit();
 
             }

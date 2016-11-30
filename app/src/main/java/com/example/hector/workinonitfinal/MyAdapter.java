@@ -40,8 +40,8 @@ public class MyAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView== null){
-            convertView=activity.getLayoutInflater().inflate(R.layout.row, null);
+        if(convertView == null){
+            convertView = activity.getLayoutInflater().inflate(R.layout.row, null);
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
