@@ -36,7 +36,7 @@ public class ListFragment extends Fragment {
 
     ListView listview;
 
-    private String userId;
+    public String userId;
 
     public ListFragment() {
         // Required empty public constructor
@@ -67,9 +67,9 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
 
 
-        View v=inflater.inflate(R.layout.fragment_list, container, false);
-        db= FirebaseDatabase.getInstance();
-        //ref=db.getReference("Users");
+        View v = inflater.inflate(R.layout.fragment_list, container, false);
+        db = FirebaseDatabase.getInstance();
+        //ref = db.getReference("Users");
 
 
         listview = (ListView) v.findViewById(R.id.listview);
@@ -77,8 +77,10 @@ public class ListFragment extends Fragment {
         ValueEventListener listener = new ValueEventListener() {
 
             ArrayList<Habit> habits;
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 habits = new ArrayList<Habit>();
                 Habit habit = new Habit();
                 for(DataSnapshot userSnap: dataSnapshot.getChildren()){
@@ -87,12 +89,18 @@ public class ListFragment extends Fragment {
                 }
 
                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         DetailsFragment frag = DetailsFragment.newInstance("","");
+
+                        frag.setUser(userId);
+                        frag.setRef(ref);
+
+
                         frag.setHabit(habits.get(position));
-                        FragmentManager mf= getFragmentManager();
-                        FragmentTransaction ft= mf.beginTransaction();
+                        FragmentManager mf = getFragmentManager();
+                        FragmentTransaction ft = mf.beginTransaction();
                         ft.replace(R.id.content_menu_principal,frag,"DetailsFragment");
                         ft.commit();
                     }

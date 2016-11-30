@@ -110,7 +110,7 @@ public class AddActivityFragment extends Fragment {
                 ListFragment fragment = ListFragment.newInstance("","");
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction t = fm.beginTransaction();
-                t.replace(R.id.content_menu_principal, fragment, "Visualizacion");
+                t.replace(R.id.content_menu_principal, fragment, "ListFragment");
                 t.commit();
 
             }

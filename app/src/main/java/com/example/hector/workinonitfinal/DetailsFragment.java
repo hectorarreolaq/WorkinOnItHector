@@ -3,19 +3,19 @@ package com.example.hector.workinonitfinal;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.Console;
 
 
 public class DetailsFragment extends Fragment {
@@ -35,11 +35,12 @@ public class DetailsFragment extends Fragment {
             location;
 
     private Button editButton,editButton2;
-
+    private String userId;
     private Habit habit;
 
     private FirebaseDatabase database;
     private DatabaseReference ref;
+    private FirebaseDatabase db;
 
 
     public DetailsFragment() {
@@ -71,6 +72,8 @@ public class DetailsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        Log.d("ola", userId);
     }
 
     @Override
@@ -79,6 +82,7 @@ public class DetailsFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_details, container, false);
+        db = FirebaseDatabase.getInstance();
 
         name = (TextView) v.findViewById(R.id.name);
         description = (TextView)v.findViewById(R.id.description);
@@ -92,8 +96,8 @@ public class DetailsFragment extends Fragment {
         dateFinish.setText(habit.getDateFinish());
         location.setText(habit.getLocation());
 
-        editButton = (Button) v.findViewById(R.id.button7);
-        editButton2 = (Button) v.findViewById(R.id.button8);
+        editButton = (Button) v.findViewById(R.id.editButton);
+        editButton2 = (Button) v.findViewById(R.id.cancelButton);
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,10 +105,13 @@ public class DetailsFragment extends Fragment {
                 EditFragment editar = EditFragment.newInstance("","");
                 editar.setHabit(habit);
 
-                FragmentManager manager = getFragmentManager();
-                FragmentTransaction t = manager.beginTransaction();
-                t.replace(R.id.content_menu_principal, editar, "Editar");
-                t.commit();
+                editar.setUser(userId);
+                editar.setRef(ref);
+
+                FragmentManager mf = getFragmentManager();
+                FragmentTransaction ft = mf.beginTransaction();
+                ft.replace(R.id.content_menu_principal,editar,"AddFragment");
+                ft.commit();
             }
         });
 
@@ -139,6 +146,12 @@ public class DetailsFragment extends Fragment {
 
     }
 
+    public void setUser(String string){
+        this.userId = string;
+    }
 
+    public void setRef(DatabaseReference ref){
+        this.ref = ref;
+    }
 
 }

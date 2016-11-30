@@ -37,8 +37,11 @@ public class EditFragment extends Fragment {
 
     private Habit habit;
 
+    private String userId;
+
     private FirebaseDatabase database;
     private DatabaseReference ref;
+    private FirebaseDatabase db;
 
     private Button botonEdit, botonReturn;
 
@@ -72,6 +75,7 @@ public class EditFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Log.d("ola", userId);
     }
 
     @Override
@@ -79,6 +83,7 @@ public class EditFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_edit, container, false);
+        db = FirebaseDatabase.getInstance();
 
         name = (EditText) v.findViewById(R.id.name);
         description = (EditText)v.findViewById(R.id.description);
@@ -144,5 +149,13 @@ public class EditFragment extends Fragment {
 
     public void setHabit(Habit habit) {
         this.habit = habit;
+    }
+
+    public void setUser(String string){
+        this.userId = string;
+    }
+
+    public void setRef(DatabaseReference ref){
+        this.ref = ref;
     }
 }

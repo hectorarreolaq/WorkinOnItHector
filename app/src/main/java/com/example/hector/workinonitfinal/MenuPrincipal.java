@@ -57,10 +57,10 @@ public class MenuPrincipal extends AppCompatActivity
 
                 AddActivityFragment frag = AddActivityFragment.newInstance("","");
 
+
+
+                // User y Ref de AddFragment
                 frag.setUser(userId);
-
-                //sacar el child del user id
-
                 frag.setRef(ref.child(userId).child("actividades"));
 
 
@@ -107,8 +107,8 @@ public class MenuPrincipal extends AppCompatActivity
             }
         });
 
+        // User y Ref de List Fragment
         frag.setUser(userId);
-
         frag.setRef(ref.child(userId).child("actividades"));
 
         FragmentManager mf = getFragmentManager();

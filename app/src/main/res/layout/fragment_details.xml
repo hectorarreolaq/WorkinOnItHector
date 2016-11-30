@@ -40,17 +40,17 @@
         android:text="Cancelar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/button7"
-        android:layout_toEndOf="@+id/button7"
+        android:layout_alignTop="@+id/editButton"
+        android:layout_toEndOf="@+id/editButton"
         android:layout_marginStart="36dp"
-        android:id="@+id/button8" />
+        android:id="@+id/cancelButton" />
 
     <Button
         android:text="Editar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="108dp"
-        android:id="@+id/button7"
+        android:id="@+id/editButton"
         android:layout_below="@+id/location"
         android:layout_alignEnd="@+id/description" />
 
