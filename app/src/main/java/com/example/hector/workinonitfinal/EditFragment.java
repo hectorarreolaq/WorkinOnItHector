@@ -123,6 +123,10 @@ public class EditFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ListFragment fragment = ListFragment.newInstance("","");
+
+                fragment.setUser(userId);
+                fragment.setRef(ref);
+
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction t = fm.beginTransaction();
                 t.replace(R.id.content_menu_principal, fragment, "ListFragment");

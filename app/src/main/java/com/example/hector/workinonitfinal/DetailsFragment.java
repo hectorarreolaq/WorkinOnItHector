@@ -120,6 +120,10 @@ public class DetailsFragment extends Fragment {
             public void onClick(View v) {
                 ListFragment fragment = ListFragment.newInstance("","");
                 FragmentManager fm = getFragmentManager();
+
+                fragment.setUser(userId);
+                fragment.setRef(ref);
+
                 FragmentTransaction t = fm.beginTransaction();
                 t.replace(R.id.content_menu_principal, fragment, "Visualizacion");
                 t.commit();
