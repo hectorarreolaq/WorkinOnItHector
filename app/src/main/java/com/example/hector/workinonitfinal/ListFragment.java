@@ -6,11 +6,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +35,10 @@ public class ListFragment extends Fragment {
 
     FirebaseDatabase db;
     DatabaseReference ref;
+
+    private ProgressBar barra;
+    private int progreso = 0;
+    private Handler mHandler = new Handler();
 
     ListView listview;
 
@@ -117,6 +123,26 @@ public class ListFragment extends Fragment {
             }
         };
         ref.addValueEventListener(listener);
+
+
+        barra = (ProgressBar) v.findViewById(R.id.barra);
+
+        new Thread(new Runnable() {
+            public void run() {
+                while (progreso < 100) {
+                    progreso = doWork();
+
+                    // Update the progress bar
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            barra.setProgress(progreso);
+                        }
+                    });
+                }
+            }
+        }).start();
+
+
         return v;
     }
 
@@ -142,6 +168,10 @@ public class ListFragment extends Fragment {
 
     public void setRef(DatabaseReference ref){
         this.ref = ref;
+    }
+
+    private int doWork() {
+        return 90;
     }
 
 
